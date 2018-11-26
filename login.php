@@ -27,7 +27,6 @@ $field=array('firstname','lastname','email','dob');
 $where="username";
 $dbObj->getdata($table,$field,$where,$id);
    print_r($id);die;
-
 echo "<script>location.href='dashboard.php'</script>";
 }
 }

@@ -1,18 +1,22 @@
 <?php
 require_once ('dbFunc.php');
 $obj = new dbFunc();
-$user = $_SESSION['username'];
+
 $sid = $_SESSION['id'];
+if(isset($_SESSION['username']))
+{
+$user = $_SESSION['username'];
 $select = "`like`";
 $lrow = $obj->like_check($sid,$user,$select);
 $select = "dislike";
 $drow = $obj->like_check($sid,$user,$select);
 $like=$lrow['like'];
 $dislike=$drow['dislike'];
+}
 $lcheck = "`like`";
-$lcount = $obj->like_count($sid,$user,$lcheck);
+$lcount = $obj->like_count($sid,$lcheck);
 $dcheck = "dislike";
-$dcount = $obj->like_count($sid,$user,$dcheck);
+$dcount = $obj->like_count($sid,$dcheck);
 ?>
 
 
@@ -29,6 +33,8 @@ $dcount = $obj->like_count($sid,$user,$dcheck);
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <?php if(isset($_SESSION['username']))
+   { ?>
     <script>
         $(document).ready(function() {
             $("#like").click(function(e) {
@@ -84,6 +90,7 @@ $dcount = $obj->like_count($sid,$user,$dcheck);
             });
         });
     </script>
+   <?php } ?>
 </head>
 <body>
 <div class="col-sm-4">

@@ -1,8 +1,7 @@
 <?php
-    include("db.php");
-    $obj=new db();
-    $conn=$obj->dbconnector();
-    $user=mysqli_query($conn,"select * from user_details");
+    include("dbFunc.php");
+    $obj = new dbFunc();
+    $user = $obj-> user_fetch();
     ?>
     <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +28,8 @@
             <div class="col-md-12 text-right menus">
                 <a class="button" href="admin_dashboard.php">Home</a>
                 <a class="button" href="view_user.php">View users</a>
-                <a class="button" href="login.php">Logout</a>
+                <a class="button" href="view_comments.php">View Comments</a>
+                <a class="button" href="admin.php">Logout</a>
             </div>
          </div>
       </div>
@@ -39,8 +39,10 @@
         <table class="table table-bordered">
             <tr>
                 <th>Name</th>
-                <th>Phone</th>
-                <th>Password</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th>DOB</th>
                 <th>Action</th>
     </tr>
     
@@ -48,12 +50,14 @@
     while($row=mysqli_fetch_array($user)){
      ?>
      <tr>
-         <td><?php echo $row['name'];?></td>
-         <td><?php echo $row['phone_number'];?></td>
-         <td><?php echo $row['password'];?></td>
+         <td><?php echo $row['username'];?></td>
+         <td><?php echo $row['firstname'];?></td>
+         <td><?php echo $row['lastname'];?></td>
+         <td><?php echo $row['email'];?></td>
+         <td><?php echo $row['dob'];?></td>
          <td>
              <?php
-         echo '<a href="deleteuser.php?user_id=' . $row['user_id'] . '" class="btn btn-warning btn-md">Delete Images</a><br/>';
+         echo '<a href="deleteuser.php?user_id=' . $row['username'] . '" class="btn btn-warning btn-md">Delete User</a><br/>';
          ?>
         </td>
     </tr>

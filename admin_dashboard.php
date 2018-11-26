@@ -1,8 +1,7 @@
 <?php
-    include("db.php");
-    $obj=new db();
-    $conn=$obj->dbconnector();
-    $res = mysqli_query($conn, "SELECT * FROM user_details");
+    include("dbFunc.php");
+    $obj = new dbFunc();
+    $res = $obj-> profile_fetch();
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +29,8 @@
             <div class="col-md-12 text-right menus">
                 <a class="button" href="admin_dashboard.php">Home</a>
                 <a class="button" href="view_user.php">View users</a>
-                <a class="button" href="login.php">Logout</a>
+                <a class="button" href="view_comments.php">View Comments</a>
+                <a class="button" href="admin.php">Logout</a>
             </div>
          </div>
       </div>
@@ -39,30 +39,20 @@
       <div class="row">
       <div class="col-md-12 main-container">
       <?php
-       while($row=mysqli_fetch_array($res)){
-            $user_id=$row['user_id'];
-            $res1 = mysqli_query($conn, "SELECT * FROM travel_details where user_id=$user_id");
-            
-            foreach($res1 as $row1){
-            $travel_id=$row1['travel_id'];
-            $story_id=$row1['story_id'];
-            $banner_image=$row1['banner_images'];
+            while($row=mysqli_fetch_array($res)){
+            $story_id=$row['id'];
+            $place=$row['title'];
+            $banner_image=$row['photo'];
             $banner_path=$banner_image;
-
-            $res2=mysqli_query($conn, "SELECT * FROM story where story_id=$story_id");
-            foreach($res2 as $row2){
-                $place=$row2['place'];
 
           ?>
                <div class="col-xs-6 col-md-6 text-center container-data">
                    <?php
                echo '<h1 class="travel_header">'.$place.'</h2>';
-               echo '<a href="details.php?travel_id=' . $travel_id . '"><img class="travel_img" src= ' . $banner_path .'></a><br/>';
+               echo '<a href="admin_details.php?story_id=' . $story_id . '"><img class="travel_img" src= ' . $banner_path .'></a><br/>';
                ?>
                </div>
                   <?php
-       }
-    }
        }
                   ?>
               

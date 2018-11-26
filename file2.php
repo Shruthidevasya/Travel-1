@@ -1,7 +1,8 @@
 <?php
+session_start();
 
-$img_name=$_POST['url'];
-realpath($img_name);
+// require_once 'dbConnect.php';  
+// $db = new dbConnect();   
 
 class Instagraph 
 { 
@@ -144,35 +145,39 @@ class Instagraph
 // $img_effect=new Instagraph($img_name,$output);
 // $img_effect->factory($img_name,$output);
 
-switch($_POST['name']){
+switch($_POST['filter']){
 
-case 'gray':$output="img_filter";
-            $img_effect=new Instagraph($img_name,$output);
-            $img_effect->factory($img_name,$output);
-            $img_effect->gotham();
-            echo $output;
-            break;
-
-case 'toaster':$output="img_filter1";
-               $img_effect=new Instagraph($img_name,$output);
-               $img_effect->factory($img_name,$output);
-               $img_effect->toaster();
-               echo $output;
-               break;
-
-case 'nashville':$output="img_filter2";
-                $img_effect=new Instagraph($img_name,$output);
-                $img_effect->factory($img_name,$output);
-                $img_effect->nashville();
-                echo $output;
+     case 'gray':$output="image11";
+                $img_effect=new Instagraph($_SESSION['photo'],"upload/".$output);
+                $img_effect->factory($_SESSION['photo'],"upload/".$output);
+                $img_effect->gotham();
+                echo "upload/".$output;
+                $_SESSION['uploaded_image']="upload/".$output;
                 break;
 
-case 'lomo':$output="img_filter3";
-                $img_effect=new Instagraph($img_name,$output);
-                $img_effect->factory($img_name,$output);
-                $img_effect->lomo();
-                echo $output;
-                break;
+    case 'toaster':$output="img_filter1";
+                  $img_effect=new Instagraph($_SESSION['photo'],"upload/".$output);
+                  $img_effect->factory($_SESSION['photo'],"upload/".$output);
+                  $img_effect->toaster();
+                  echo "upload/".$output;
+                  $_SESSION['uploaded_image']="upload/".$output;
+                  break;
+
+    case 'nashville':$output="img_filter2";
+                     $img_effect=new Instagraph($_SESSION['photo'],"upload/".$output);
+                     $img_effect->factory($_SESSION['photo'],"upload/".$output);
+                     $img_effect->nashville();
+                     echo "upload/".$output;
+                     $_SESSION['uploaded_image']="upload/".$output;
+                     break;
+
+       case 'lomo':$output="img_filter3";
+                   $img_effect=new Instagraph($_SESSION['photo'],"upload/".$output);
+                   $img_effect->factory($_SESSION['photo'],"upload/".$output);
+                   $img_effect->lomo();
+                   echo "upload/".$output;
+                   $_SESSION['uploaded_image']="upload/".$output;
+                   break;
 
 }
 

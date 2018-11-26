@@ -21,6 +21,14 @@ $flag=1;
 
 $name = explode(" ", "$fullname", 2);
 $firstname = $name[0];
+// if (!(preg_match("/^.+[a-z]{3,}$/i", $firstname)))
+// {
+//     $firerr='* Enter the valid firstname *';
+//     $flag=0;
+// }
+
+if(empty($lastname))
+
 if(isset($name[1]))
 {$lastname = $name[1];
 if (!(preg_match("/^.*[a-z]$/i", $lastname)))
@@ -33,16 +41,16 @@ else
     $lasterr='* Enter the lastname *';
     $flag=0;
 }
+if (!(preg_match("/^.*[a-z]$/i", $lastname)))
+{
+    $lasterr='* Enter the valid lastname *';
+    $flag=0;
+ }
 if (!(preg_match("/^.+[a-z]{3,}$/i", $firstname)))
 {
     $firerr='* Enter the valid firstname *';
     $flag=0;
 }
-
-
-
-
-
 
 if(!(filter_var($email, FILTER_VALIDATE_EMAIL))) {
     $mailerr='* Enter the valid mail *';
@@ -55,10 +63,10 @@ if(!(filter_var($email, FILTER_VALIDATE_EMAIL))) {
 //    $flag=0;
 //}
 
- if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/', $password)) {
-     $paswerr='* password constraints doesn\'t match *';
-     $flag=0;
- }
+//  if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/', $password)) {
+//      $paswerr='* password constraints doesn\'t match *';
+//      $flag=0;
+//  }
 
 $password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -122,9 +130,9 @@ $dbObj->Insertdata($table,$field,$data);
          <span class="error"><?php if(isset($eiderr)) echo $eiderr ?> </span><br>
          <span class="error"><?php if(isset($eiderr)) echo $usereerr ?> </span><br>
          <input type="text"  name="username" value="<?php if (isset($eiderr)) echo $_POST['eid'];?>"  class="form-control" placeholder="Enter the username" maxlength="15" required><br>
-         <!-- <span class="error"><?php if(isset($passerr)) echo $paswerr ?> </span><br> -->
+          <span class="error"><?php if(isset($passerr)) echo $paswerr ?> </span><br>
          <input type="password"  name="password"   class="form-control" placeholder="Enter Password" required><br>
-         <!-- <span class="error"><?php echo $passerr ?> </span><br> -->
+          <span class="error"><?php echo $passerr ?> </span><br>
          <input type="password"  name="confirm"   class="form-control" placeholder="Confirm password" required><br>
          <input type="date"  name="dob" value="<?php echo $_POST['dob'];?>" class="form-control" placeholder="Enter the Date of birth" required><br>
 <!--        <label >Select a file</label>-->

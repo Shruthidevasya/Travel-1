@@ -8,6 +8,10 @@ if(isset($_POST['logout']))
     unset($_SESSION['username']);
     echo "<script>location.href='login.php'</script>";
 }
+if(isset($_POST['stories']))
+{
+    echo "<script>location.href='stories.php'</script>";
+}
 if(isset($_POST['username']))
 $username =$_SESSION['username'];
 
@@ -46,9 +50,18 @@ $res = $y->search();
         </div>
         <div class="col-md-6 headerstyle text-right">
             <?php if((isset($_SESSION['username'])))
+            {?>
+            <div class="col-md-8 headerstyle text-right">  <?php
            echo ' <form action="" method="post">
             <a href="index.php"> <button type="submit" name="logout" class="btnstyle">Logout</button></a>
              </form>';
+          ?></div>
+          <div class="col-md-4 headerstyle text-right">
+          <?php
+             echo ' <form action="" method="post" >
+            <a href="stories.php"> <button type="submit" name="stories" class="btnstyle">Add story</button></a>
+             </form>';?></div><?php
+            }
             else
                 echo ' <a href="login.php"> <button type="submit" name="log" class="btnstyle">Login</button></a>';
             ?>

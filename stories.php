@@ -1,4 +1,11 @@
-
+<?php
+session_start();
+if (!(isset($_SESSION['username'])))
+{
+    header('Location: login.php');
+    exit;
+}
+?>
 <html>
     <head>
 
@@ -15,7 +22,7 @@
        
     </div>
     <div class="col-md-6 headerstyle">
-    <a href="viewStories.php" >  <img src="logo.png" class="logo">
+    <a href="index.php" >  <img src="logo.png" class="logo">
     </div>
     <div class="col-md-6 headerstyle text-right">
             <button type="button" name="view" class="btnstyle"><a href="index.php" >View</a></button>
@@ -26,10 +33,13 @@
         <form action="storiesphp.php" method="post" enctype="multipart/form-data">
         <label for="title" class="storytext">Title of story</label>
             <input type="text" id="title" name="title" placeholder="Title of stroy.." class="form-control" ><br>
+           
             <label for="title" class="storytext">Image</label>
-            <input type="file" class="form-control" name="file"><br/>
-       
-
+            <input type="file"  class="form-control" name="file"><br/>
+            
+            <label for="tag" class="storytext">Add a tag for image</label>
+            <input type="text" name="add_tag"/>
+       <br/>
         <label for="description" class="storytext">Write your travelling story</label>
             <textarea name="description" class="ckeditor" class="form-control"></textarea><br>
 

@@ -93,7 +93,7 @@ font-size: 50px;
 .moreDetailcontent{
     padding-left: 150px;
     padding-right: 150px;
-    font-size: 30px;
+    font-size: 50px;
 }
 .bannertitle{
     position: absolute;
@@ -103,6 +103,11 @@ font-size: 50px;
     color: rgb(255, 0, 102);
     font-weight: 700;
     font-size: 50px;
+}
+/*css changed*/
+
+.descriptiondetail{
+    font-size: 30px;
 }
 
 @media only screen and (max-width: 767px) {
@@ -120,3 +125,12 @@ font-size: 50px;
 margin-right: 51px;
     }
 }
+
+.desc p{
+    font-size: 25px;
+ }
+ .desc{
+    margin: auto;
+    max-width: 800;
+    text-align: justify;
+ }

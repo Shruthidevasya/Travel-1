@@ -1,25 +1,23 @@
 <?php
-    include("db.php");
-    $obj=new db();
-    $conn=$obj->dbconnector();
-    $travel_id=$_GET['travel_id'];
-    $res=mysqli_query($conn,"select * from travel_details where travel_id=$travel_id");
+     include("dbFunc.php");
+     $obj = new dbFunc();
+    $story_id=$_GET['story_id'];
+    $res = $obj-> travel_fetch($story_id);
+   //  $res=mysqli_query($conn,"select * from travel_details where travel_id=$travel_id");
     $row=mysqli_fetch_assoc($res);
-    $travelid=$row['travel_id'];
+    $travelid=$row['id'];
 
     if(isset($_POST['btnUpdate'])){
-        
         $place=$_POST['place'];
         $desc=$_POST['description'];
         $storyid=$_POST['storyid'];
-        $table_name="story";
+        $table_name="stories";
         $formdata=array(
-            'place'=>$place,
+            'title'=>$place,
             'description'=>$desc
         );
-        $obj=new db();
-        $obj->dbconnector();
-        $update_result=$obj->update_data($table_name,$formdata,$storyid);
+        $obj = new dbFunc();
+        $update_result=$obj->update_storydata($table_name,$formdata,$storyid);
     }
 ?>
 
@@ -45,7 +43,7 @@
                  id:id,
            },
            success: function(response){
-            if(response === "no_errors") location.href = "admin_dashboard.php"   
+           window.location.href='admin_dashboard.php'   
            }
        });
      });
@@ -65,7 +63,8 @@
             <div class="col-md-12 text-right menus">
                 <a class="button" href="admin_dashboard.php">Home</a>
                 <a class="button" href="view_user.php">View users</a>
-                <a class="button" href="logout.php">Logout</a>
+                <a class="button" href="view_comments.php">View Comments</a>
+                <a class="button" href="admin.php">Logout</a>
             </div>
          </div>
       </div>
@@ -76,10 +75,7 @@
                 <div class="dropdown">
                 <button class="dropbtn  btn btn-warning btn-lg">Delete</button>
                 <div class="dropdown-content">
-                    <?php
-                echo '<a href="delete_images.php?travel_id=' . $travelid . '">Delete Images</a><br/>';
-                ?>
-                    <a href="" name="deleteall" id="deleteall" data-id="<?php echo $travelid;?>">Delete All</a>
+                    <a href="" name="deleteall" id="deleteall" data-id="<?php echo $story_id;?>">Delete Story</a>
                 </div>
                 </div>
             </div>
@@ -88,51 +84,21 @@
       <div class="row">
       <div class="col-md-12 main-container">
       <?php
-            $user_id=$row['user_id'];
-            $banner_image=$row['banner_images'];
+            $banner_image=$row['photo'];
             $banner_path=$banner_image;
-            
-            $sub_image=$row['sub_images'];
-            $sub_image_data  = $sub_image;
-            $sub_image_final = explode(",", $sub_image_data);
-           
-
-            $story_id=$row['story_id'];
-
-            $res = mysqli_query($conn, "SELECT * FROM story where story_id=$story_id");
-            $row=mysqli_fetch_assoc($res);
-            $storyid=$row['story_id'];
-            $place=$row['place'];
+            $place=$row['title'];
             $description=$row['description'];
+            $user_name=$row['user'];
 
           ?>
                <div class="col-xs-6 col-md-6 text-center container-data">
                    <img class="travel_img" src=<?php echo $banner_path;?>>
-
-                    <div class="col-md-12">
-                      <?php
-                      $arr_length=count($sub_image_final);
-                      $i=0;
-                      foreach($sub_image_final as $sub_images)
-                      {
-                           ?>
-                        <a class="fancybox" href="#one<?php echo $i;?>">
-                        <div class="col-xs-6 col-md-4 inner-image" id="one<?php echo $i;?>">
-                        <img class="travel_inner_img" src=<?php echo $sub_images;?> >
-                        </div>
-                        <div class="col-xs-6 col-md-4" id="one<?php echo $i;?>">
-                        <img class="travel_simg" src=<?php echo $sub_images;?> >
-                        </div>
-                       </a>
-                        <?php
-                        $i++;
-                       }
-                       ?>
-                  </div>
+                   <h3>Story Posted By : <?php echo $user_name ?></h3>
                </div>
 
                 <div class="col-md-6">
                      <div class="story">
+                        
                         <h2 class="text-center heading"><?php echo $place ?></h2>
                         <p class="description"><?php echo $description; ?></p>
 
@@ -148,7 +114,7 @@
         </div>
         <div class="modal-body">
             <form method="post" action="">
-         <input type="hidden" value="<?php echo $storyid; ?>" name="storyid"/>
+         <input type="hidden" value="<?php echo $story_id; ?>" name="storyid"/>
          <input type="text" name="place" class="form-control" value="<?php echo $place ?>" required><br/>
          <textarea class="form-control" name="description" required><?php echo $description ?></textarea><br/>
          <div class="col-md-4 col-md-offset-4">

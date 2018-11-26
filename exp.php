@@ -1,3 +1,52 @@
+<?php
+
+echo "<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>";
+
+include("dbFunc.php");
+//$id = null;
+session_start();
+$id=$_SESSION['id'];
+$res=$k->viewdetail($id);
+$result = $res->fetch_assoc();
+$title=$result['title'];
+$description=$result['description'];
+$photo=$result['photo'];
+$alt=$result['alt'];
+$_SESSION['photo']=$photo;
+
+if(isset($_POST['submit'])){
+
+    $dbhost = 'localhost';
+    $dbuser = 'root';
+    $dbpass = 'Abcd@123';
+    $dbname = 'Travel';
+    $conn = mysqli_connect($dbhost, $dbuser, $dbpass,$dbname);
+            
+            $image_filter=$_SESSION['uploaded_image'];
+            $story_id=$_SESSION['id'];
+
+            if(! $conn ) {
+                die('Could not connect: ' . mysqli_error());
+             }
+
+             echo 'Submitted sucessfully<br>';
+
+             
+
+             $sql ="UPDATE stories SET filtered_image='$image_filter' WHERE id='$story_id'";
+             
+              mysqli_query($conn, $sql);
+
+             mysqli_close($conn);
+ 
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,67 +58,21 @@
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
-    
-    $(function(){
-      
-           $('#image_file').change(function(){
 
-              var fileReader=new FileReader();
-
-              var file=this.files[0];
-
-              if (!file.name.match(/.(jpg|jpeg|png|gif)$/i)){
-               alert('Please enter the image');
-               $("#image_file").val('');
-              }
-
-            });
-
-        });
-     
-        function readURL(input) {
-            
-            if (input.files && input.files[0]) {
-
-                var reader = new FileReader();
-               // var object = new ActiveXObject("Scripting.FileSystemObject");
-
-                // var file_name=getFile(image_file.value);
-                // var file = object.GetFile();
-                //     file.Move("uploads/");
-                //     alert("File is moved successfully");
-
-                reader.onload = function (e) {
-                    if(! ($("#image_file").value='')){
-                    $('#blah').attr('src', e.target.result);
-                    document.getElementById("blah").style.display="block";
-                    document.getElementById("blacknwhite").style.display="block";
-                    document.getElementById("toaster").style.display="block";
-                    document.getElementById("nashville").style.display="block";
-                    document.getElementById("lomo").style.display="block";
-                    }
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-
-        }
 
         function grayscale(filter){
 
-            var f = document.getElementById( 'image_file' ).value;
-            f=f.split("\\").pop();
-
             $.post("file2.php",
             {
-                name:filter,
-                url:f
+            
+                filter:filter
+    
             },
             function(data, status){
     
-               //alert("Data: " + data + "\nStatus: " + status);
-                    $('#blah').attr('src', data);
-                    document.getElementById("blah").style.display="block";
-                    
+          // alert("Data: " + data + "\nStatus: " + status);
+                     $('#blah').attr('src', data);
+                    // document.getElementById("blah").style.display="block";
             });
 
         }
@@ -80,17 +83,21 @@
 
 <body>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" style="text-align:center;">
 
-    <input type="file" id="image_file" name="file" onchange="readURL(this);" /><br/>
+    <!-- <input type="file" id="image_file" name="file" onchange="readURL(this);" /><br/> -->
 
-    <img id="blah" src="#" alt="your image" id="display_image" style="display:none;height:300px;width:400px;"/>
-    <input type="button" name="blacknwhite" id="blacknwhite" style="display:none;" value="Greyscale" onclick="grayscale('gray')">
-    <input type="button" name="toaster" id="toaster" style="display:none;" value="toaster" onclick="grayscale('toaster')">
-    <input type="button" name="nashville" id="nashville" style="display:none;" value="nashville" onclick="grayscale('nashville')">
-    <input type="button" name="lomo" id="lomo" style="display:none;" value="lomo" onclick="grayscale('lomo')">
+    <img id="blah" src=<?php echo $photo;?> alt=<?php echo $alt; ?> id="display_image" style="height:550px;width:auto;"/>
+    <br/>
+    <input type="button" name="blacknwhite" id="blacknwhite" value="Greyscale" onclick="grayscale('gray')">
+    <input type="button" name="toaster" id="toaster"  value="toaster" onclick="grayscale('toaster')">
+    <input type="button" name="nashville" id="nashville"  value="nashville" onclick="grayscale('nashville')">
+    <input type="button" name="lomo" id="lomo" value="lomo" onclick="grayscale('lomo')">
+    <br/>
     <!-- <input type="button" name="kelvin" id="kelvin" style="display:none;" value="kelvin" onclick="grayscale('kelvin')"> -->
-    <input type="submit">
+    <input type="submit" name="submit">
+
+    <button onclick="window.location.href='index.php'" style="border:none;background-color:#FF005F;color:white;padding:5px 5px;">Home page</button>
 
     </form>
 
