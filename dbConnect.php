@@ -2,7 +2,7 @@
     class dbConnect {  
         public $conn;
         function __construct() {  
-            $this->conn = new mysqli("localhost", "root", "Abcd@123", "Travel");
+            $this->conn = new mysqli("localhost", "root", "1", "travelstory");
             if ($this->conn->connect_error) {
                 die("Connection failed: " . $this->conn->connect_error);
             }

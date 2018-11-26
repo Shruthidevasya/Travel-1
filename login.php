@@ -50,7 +50,9 @@ echo "<script>location.href='dashboard.php'</script>";
 <body>
    <header>
        <h2>Welcome to the Travelling Stories</h2>
+       <!-- <button class="btn btn-danger"><a href="admin.php">Admin login</a></button> -->
        <div class="login">
+         
          Don't have an account?  <a href="register.php"><button class="btn btn-danger">Signup</button></a>
        </div>
    </header>
@@ -61,6 +63,7 @@ echo "<script>location.href='dashboard.php'</script>";
        <form action="login.php" method="post"  class="col-md-4 col-md-offset-4"><br><br>
         <input type="text"  name="username"   class="form-control" placeholder="Enter the username" maxlength="20" required><br>
         <input type="password"  name="password"   class="form-control" placeholder="Enter Password" required><br>
+        <p style="color:red;font-size:16px;"><a href="mail/forgotpassword.php">Forgot password?</a></p>
        <button type="submit" name="login" class="form-control btn btn-danger">Let's Go</button><br><br>
        </form>
    </section>
